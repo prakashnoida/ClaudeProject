@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Spendly{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-inner">
+            <a href="{{ url_for('landing') }}" class="nav-brand">
+                <span class="brand-mark"><i data-lucide="wallet"></i></span>
+                <span class="brand-name">Spendly</span>
+            </a>
+            <div class="nav-links">
+                {% if session.user_id %}
+                <a href="{{ url_for('profile') }}"
+                   class="nav-link{% if request.endpoint == 'profile' %} nav-link-active{% endif %}">
+                    <i data-lucide="layout-dashboard"></i><span class="nav-link-label">Dashboard</span>
+                </a>
+                <a href="{{ url_for('logout') }}" class="nav-link">
+                    <i data-lucide="log-out"></i><span class="nav-link-label">Log out</span>
+                </a>
+                <a href="{{ url_for('add_expense') }}" class="btn-primary">
+                    <i data-lucide="plus"></i><span class="nav-link-label">Add Expense</span>
+                </a>
+                {% else %}
+                <a href="{{ url_for('login') }}"
+                   class="nav-link{% if request.endpoint == 'login' %} nav-link-active{% endif %}">Sign in</a>
+                <a href="{{ url_for('register') }}" class="btn-primary">Get started</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="brand-mark"><i data-lucide="wallet"></i></span>
+                <div>
+                    <span class="footer-name">Spendly</span>
+                    <p class="footer-copy">Track every rupee. Own your finances.</p>
+                </div>
+            </div>
+            <div class="footer-links">
+                <a href="{{ url_for('terms') }}">Terms and Conditions</a>
+                <a href="{{ url_for('privacy') }}">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
